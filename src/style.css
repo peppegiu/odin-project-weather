@@ -1,0 +1,132 @@
+:root {
+  --main-width: max(55vw, 600px);
+  --min-width: 300px;
+  font-size: 16px;
+  --bright: brightness(115%);
+  ---webkit-box-shadow: 6px 5px 17px 10px rgba(0,0,0,0.45); 
+}
+
+html {
+  height: 100vh;
+  color: white;
+  font-family: 'open_sansregular', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+body {
+  height: 100%;
+}
+
+
+
+.content {
+  width: var(--main-width);
+  height: 40vh;
+  min-width: var(--min-width);
+  display: grid;
+  padding: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  box-shadow: var(---webkit-box-shadow);
+}
+
+.content-header {
+  grid-area: header;
+}
+.left-sidebar {
+  grid-area: left-sidebar;
+  display: flex;
+  flex-direction: row;
+  align-items: top;
+  gap: 0.4em;
+}
+.right-sidebar {
+  grid-area: right-sidebar;
+}
+
+.content .right-sidebar {
+  display: grid;
+}
+
+.left-sidebar .info {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.text {
+  color: #a8cdff;
+}
+
+.icon {
+  width: 18px;
+  
+}
+
+.medida {
+  display: block;
+}
+
+.right-sidebar {
+  display: grid;
+  grid-template-columns: 150px 150px;
+  grid-template-rows: 90px 90px;
+  gap: 1em;
+  justify-content: right;
+}
+
+.title > * {
+  display: inline;
+}
+
+.main-grid-box {
+  filter: brightness(120%) opacity(80%);
+  padding: 10px;
+  border-radius: 20px;
+}
+
+@media (min-width: 500px) {
+  .content {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "header header"
+      "left-sidebar right-sidebar";
+  }
+  .days template {
+    display: grid;
+    grid-template-columns: min-content;
+  }
+  .days template div {
+    padding: 7px;
+  }
+}
+
+@media (max-width: 500px) {
+  .content {
+    grid-template-columns: repeat(1fr, 3);
+    grid-template-areas:
+      "header header"
+      "left-sidebar"
+      "right-sidebar";
+  }
+  .days template {
+    display: grid;
+    grid-template-columns: max-content;
+    padding: 10px;
+  }
+  .days template div {
+    padding: 0.8rem;
+  }
+}
+
+.days {
+  width: var(--main-width);
+  padding: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: var(---webkit-box-shadow);
+}
+
+.content, .days {
+  border-radius: 20px;
+  
+}

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="font.css" />
+    <link rel="stylesheet" href="./fonts/open-sans/open-sans.css" />
+    <link rel="stylesheet" href="./time.css" />
+    <link rel="stylesheet" href="assets.css" />
+  </head>
+  <body class="night-bg-body">
+    <header>
+      <div class="search-container">
+        <input class="input" type="text" />
+        <svg viewBox="0 0 24 24" class="search__icon">
+          <g>
+            <path
+              d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
+            ></path>
+          </g>
+        </svg>
+      </div>
+    </header>
+    <section class="content night-bg">
+      <div class="content_header">
+        <div class="title">
+          <h1 class="city-name"></h1>
+          <p id="country-name"></p>
+        </div>
+      </div>
+      <div class="left-sidebar">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="80"
+          height="80"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-cloud text-white"
+          data-fg-d3bl1="0.8:1.7001:/src/app/App.tsx:32:14:756:24:e:Cloud::::::EGNf"
+          data-fgid-d3bl1=":rc:"
+        >
+          <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+        </svg>
+        <div class="info">
+          <p class="temperature font-big">24</p>
+          <p class="status lighter sub-title">Parcialmente nublado</p>
+          <p class="feeling dark-white">Sensação de 26</p>
+        </div>
+      </div>
+      <div class="right-sidebar">
+        <div class="main-grid-box night-bg">
+          <div class="title">
+            <img src="./images/humidity.png" alt="" class="icon" />
+            <p class="text lighter">Umidade</p>
+          </div>
+          <p class="medida"></p>
+        </div>
+        <div class="main-grid-box night-bg">
+          <div class="title">
+            <img src="./images/air.png" alt="" class="icon" />
+            <p class="text lighter">Vento</p>
+          </div>
+          <p class="medida"></p>
+        </div>
+        <div class="main-grid-box night-bg">
+          <div class="title">
+            <img src="./images/visibility.png" alt="" class="icon" />
+            <p class="text lighter">Visibilidade</p>
+          </div>
+          <p class="medida"></p>
+        </div>
+        <div class="main-grid-box night-bg">
+          <div class="title">
+            <img src="./images/pressure.png" alt="" class="icon" />
+            <p class="text lighter">Pressão</p>
+          </div>
+          <p class="medida"></p>
+        </div>
+      </div>
+    </section>
+    <section class="days night-bg">
+      <h1>Previsão para 5 dias</h1>
+      <template></template>
+    </section>
+  </body>
+</html>

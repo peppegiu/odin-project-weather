@@ -1,0 +1,29 @@
+.day-bg-body {
+    background-color: #5094ff;
+    filter: brightness(120%) opacity(80%);
+    background: linear-gradient(to bottom, #75c6ff 0%, #0077be 100%);
+    background-attachment: fixed;
+}
+
+.day-bg {
+    background-image: url(./images/bohevMP.jpeg);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-color: #448eff;
+}
+
+.night-bg-body {
+    background-image: url(./images/night.jpeg);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-color: #448eff;
+    background-size: cover;
+}
+
+.night-bg {
+    background-color: rgba(31, 36, 43, 0.7);
+}
+
+.grid-box-day {
+    background-color: #5094ff;
+}
