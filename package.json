@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@types/node": "^25.7.0",
     "ts-loader": "^9.5.7",
     "typescript": "^6.0.3",
     "webpack": "^5.106.2",
@@ -23,6 +24,7 @@
     "clone-deep": "^4.0.1",
     "commander": "^2.20.3",
     "cross-spawn": "^7.0.6",
+    "dotenv": "^17.4.2",
     "electron-to-chromium": "^1.5.349",
     "enhanced-resolve": "^5.21.0",
     "envinfo": "^7.21.0",
