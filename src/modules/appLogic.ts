@@ -8,6 +8,7 @@ interface MainDay {
   visibility: number;
   pressure: number;
   dateTime: Date;
+  city: string;
 }
 
 interface NextDay {
@@ -16,6 +17,7 @@ interface NextDay {
   conditions: string;
   humidity: number;
   dateTime: Date;
+  city: string;
 }
 
 interface WeatherData {
@@ -32,38 +34,79 @@ interface WeatherDataInterface {
 class APIService implements WeatherDataInterface {
   private WeatherAPI = process.env.API_KEY;
 
-  public getCityInfo(city: string): void {
-    let url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=us&include=days%2Ccurrent&key=${this.WeatherAPI}&contentType=json`;
-    // faz uma requisição  ao endereço com a url formatada
-    url = encodeURI(url);
-    fetch(url).then(function (response) {
-      return response.json();
-    });
+  async getCityInfo(city: string): Promise<any> {
+    try {
+      let url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=us&include=days%2Ccurrent&key=${this.WeatherAPI}&contentType=json`;
+      // faz uma requisição  ao endereço com a url formatada
+      url = encodeURI(url);
+
+      const response = await fetch(url);
+
+      const data = await response.json;
+      return data;
+    } catch (error) {
+      console.log("Ocorreu um erro:", error);
+    }
   }
   public processarDados(weatherData: WeatherData): object {
     let resolvedAddress = weatherData.resolvedAddress;
     let firstDay: MainDay;
     const FIRST_DAY_INDEX = 0;
 
-    const mainDay = weatherData.nextDays.filter(
-      (_, index) => index === FIRST_DAY_INDEX,
-    );
+    const mainDay = weatherData.nextDays[FIRST_DAY_INDEX];
     const otherDays = weatherData.nextDays.filter(
       (_: MainDay | NextDay, index: number) => index !== FIRST_DAY_INDEX,
     );
 
     const processedDays = otherDays
       .slice(0, 4)
-      .map((day: NextDay, index: number) => {
-        icon: day.icon;
-        temp: day.temp;
-        conditions: day.conditions;
-        humidity: day.humidity;
-        datetime: day.dateTime;
-      });
+      .map((day: NextDay, index: number) => ({
+        icon: day.icon,
+        temp: day.temp,
+        conditions: day.conditions,
+        humidity: day.humidity,
+        datetime: day.dateTime,
+        city: day.city,
+      }));
 
-    return { mainDay, otherDays };
+    return { mainDay, otherDays, processedDays };
+  };
+};
+
+class CachedWeatherAPI implements WeatherDataInterface {
+  private service: any;
+  private cityCache: Array<MainDay | NextDay> = [];
+  private weatherCache : Array<string> = [];
+
+  constructor(service: any) {
+    this.service = service;
   }
+<<<<<<< HEAD
 }
 //Implementar o sistema do proxy
 
+=======
+
+  cityExists(city: string) {
+    const found = this.cityCache
+      .find((day) => day.city == city);
+    return found != undefined ? true : false;
+  }
+
+  getCityInfo(city: string): MainDay | NextDay | undefined   {
+    if (!this.cityExists(city)) {
+      this.service.getCityInfo(city);
+    }
+    else {
+      const cachedCity = this.cityCache.find((day) => day.city == city);
+      return cachedCity;
+    }
+  }
+
+  processarDados(weatherData: object): object {
+    if (this.weatherCache.length != 0 || weatherExists(weatherData)) {
+      
+    }
+  }
+}
+>>>>>>> 7822fd0f4b296f0264e9e27ec4a75b1aeb18cd5e
