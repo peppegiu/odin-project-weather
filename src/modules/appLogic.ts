@@ -65,3 +65,5 @@ class APIService implements WeatherDataInterface {
     return { mainDay, otherDays };
   }
 }
+//Implementar o sistema do proxy
+
