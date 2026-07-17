@@ -8,6 +8,7 @@ interface MainDay {
   visibility: number;
   pressure: number;
   dateTime: Date;
+  city: string;
 }
 
 interface NextDay {
@@ -16,6 +17,7 @@ interface NextDay {
   conditions: string;
   humidity: number;
   dateTime: Date;
+  city: string;
 }
 
 interface WeatherData {
@@ -64,8 +66,41 @@ class APIService implements WeatherDataInterface {
         conditions: day.conditions,
         humidity: day.humidity,
         datetime: day.dateTime,
+        city: day.city,
       }));
 
     return { mainDay, otherDays, processedDays };
+  };
+};
+
+class CachedWeatherAPI implements WeatherDataInterface {
+  private service: any;
+  private cityCache: Array<MainDay | NextDay> = [];
+  private weatherCache : Array<string> = [];
+
+  constructor(service: any) {
+    this.service = service;
+  }
+
+  cityExists(city: string) {
+    const found = this.cityCache
+      .find((day) => day.city == city);
+    return found != undefined ? true : false;
+  }
+
+  getCityInfo(city: string): MainDay | NextDay | undefined   {
+    if (!this.cityExists(city)) {
+      this.service.getCityInfo(city);
+    }
+    else {
+      const cachedCity = this.cityCache.find((day) => day.city == city);
+      return cachedCity;
+    }
+  }
+
+  processarDados(weatherData: object): object {
+    if (this.weatherCache.length != 0 || weatherExists(weatherData)) {
+      
+    }
   }
 }
