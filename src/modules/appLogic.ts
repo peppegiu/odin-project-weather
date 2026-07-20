@@ -1,4 +1,4 @@
-interface MainDay {
+export interface MainDay {
   icon: string;
   temp: number;
   conditions: string;
@@ -11,7 +11,7 @@ interface MainDay {
   city: string;
 }
 
-interface NextDay {
+export interface NextDay {
   icon: string;
   temp: number;
   conditions: string;
@@ -26,12 +26,17 @@ interface WeatherData {
   nextDays: Array<NextDay> | Array<MainDay>;
 }
 
-interface WeatherDataInterface {
+export interface processedWeatherData {
+  firstDay: MainDay;
+  processedDays: Array<NextDay>;
+}
+
+export interface WeatherDataInterface {
   getCityInfo(city: string): void;
   processarDados(weatherData: object): object;
 }
 
-class APIService implements WeatherDataInterface {
+export class APIService implements WeatherDataInterface {
   private WeatherAPI = process.env.API_KEY;
 
   async getCityInfo(city: string): Promise<any> {
@@ -48,12 +53,12 @@ class APIService implements WeatherDataInterface {
       console.log("Ocorreu um erro:", error);
     }
   }
-  public processarDados(weatherData: WeatherData): object {
+  public processarDados(weatherData: WeatherData): Partial<processedWeatherData> {
     let resolvedAddress = weatherData.resolvedAddress;
-    let firstDay: MainDay;
+    let firstDay: MainDay | NextDay;
     const FIRST_DAY_INDEX = 0;
 
-    const mainDay = weatherData.nextDays[FIRST_DAY_INDEX];
+    firstDay = weatherData.nextDays[FIRST_DAY_INDEX];
     const otherDays = weatherData.nextDays.filter(
       (_: MainDay | NextDay, index: number) => index !== FIRST_DAY_INDEX,
     );
@@ -69,23 +74,18 @@ class APIService implements WeatherDataInterface {
         city: day.city,
       }));
 
-    return { mainDay, otherDays, processedDays };
+    return { firstDay, processedDays };
   };
 };
 
-class CachedWeatherAPI implements WeatherDataInterface {
+export class CachedWeatherAPI implements WeatherDataInterface {
   private service: any;
   private cityCache: Array<MainDay | NextDay> = [];
-  private weatherCache : Array<string> = [];
+  private weatherCache : Array<WeatherData> = [];
 
   constructor(service: any) {
     this.service = service;
   }
-<<<<<<< HEAD
-}
-//Implementar o sistema do proxy
-
-=======
 
   cityExists(city: string) {
     const found = this.cityCache
@@ -93,20 +93,29 @@ class CachedWeatherAPI implements WeatherDataInterface {
     return found != undefined ? true : false;
   }
 
+  weatherExists(weatherData: WeatherData) {
+    const found = this.weatherCache
+      .find((weather) => weather.resolvedAddress == weatherData.resolvedAddress);
+    return found != undefined ? true : false;
+  }
+
   getCityInfo(city: string): MainDay | NextDay | undefined   {
     if (!this.cityExists(city)) {
-      this.service.getCityInfo(city);
+      this.cityCache.push(this.service.getCityInfo(city));
     }
     else {
       const cachedCity = this.cityCache.find((day) => day.city == city);
-      return cachedCity;
+      this.processarDados(cachedCity);
     }
   }
 
-  processarDados(weatherData: object): object {
-    if (this.weatherCache.length != 0 || weatherExists(weatherData)) {
-      
+  processarDados(weatherData: WeatherData): processedWeatherData {
+    if (this.weatherCache.length != 0) {
+      const processedWeatherData = this.service.processarDados(weatherData);
+      this.weatherCache.push(processedWeatherData);
+      return processedWeatherData;
     }
   }
 }
->>>>>>> 7822fd0f4b296f0264e9e27ec4a75b1aeb18cd5e
+
+export const APIInstance = new CachedWeatherAPI(new APIService());
